@@ -227,15 +227,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\yoga\CompactValue.h" />
+    <ClInclude Include="..\..\yoga\instrumentation.h" />
+    <ClInclude Include="..\..\yoga\log.h" />
     <ClInclude Include="..\..\yoga\Utils.h" />
     <ClInclude Include="..\..\yoga\YGConfig.h" />
     <ClInclude Include="..\..\yoga\YGEnums.h" />
     <ClInclude Include="..\..\yoga\YGFloatOptional.h" />
     <ClInclude Include="..\..\yoga\YGLayout.h" />
     <ClInclude Include="..\..\yoga\YGMacros.h" />
+    <ClInclude Include="..\..\yoga\YGMarker.h" />
     <ClInclude Include="..\..\yoga\YGNode.h" />
     <ClInclude Include="..\..\yoga\YGNodePrint.h" />
     <ClInclude Include="..\..\yoga\YGStyle.h" />
+    <ClInclude Include="..\..\yoga\YGValue.h" />
     <ClInclude Include="..\..\yoga\Yoga-internal.h" />
     <ClInclude Include="..\..\yoga\Yoga.h" />
     <ClInclude Include="resource.h" />
@@ -243,14 +248,16 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\yoga\log.cpp" />
     <ClCompile Include="..\..\yoga\Utils.cpp" />
     <ClCompile Include="..\..\yoga\YGConfig.cpp" />
     <ClCompile Include="..\..\yoga\YGEnums.cpp" />
-    <ClCompile Include="..\..\yoga\YGFloatOptional.cpp" />
     <ClCompile Include="..\..\yoga\YGLayout.cpp" />
+    <ClCompile Include="..\..\yoga\YGMarker.cpp" />
     <ClCompile Include="..\..\yoga\YGNode.cpp" />
     <ClCompile Include="..\..\yoga\YGNodePrint.cpp" />
     <ClCompile Include="..\..\yoga\YGStyle.cpp" />
+    <ClCompile Include="..\..\yoga\YGValue.cpp" />
     <ClCompile Include="..\..\yoga\Yoga.cpp" />
     <ClCompile Include="YGInterop.cpp" />
     <ClCompile Include="dllmain.cpp">
