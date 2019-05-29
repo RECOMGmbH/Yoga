@@ -955,7 +955,7 @@ bool YGLayoutNodeInternal(
     YGMarkerLayoutData& layoutMarkerData,
     void* const layoutContext);
 
-#ifdef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
 static void YGNodePrintInternal(
     const YGNodeRef node,
     const YGPrintOptions options) {
@@ -4074,7 +4074,7 @@ void YGNodeCalculateLayoutWithContext(
         node->getLayout().direction, ownerWidth, ownerHeight, ownerWidth);
     YGRoundToPixelGrid(node, node->getConfig()->pointScaleFactor, 0.0f, 0.0f);
 
-#ifdef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
     if (node->getConfig()->printTree) {
       YGNodePrint(
           node,
@@ -4139,7 +4139,7 @@ void YGNodeCalculateLayoutWithContext(
           !originalNode->isLayoutTreeEqualToNode(*node);
       node->setLayoutDoesLegacyFlagAffectsLayout(neededLegacyStretchBehaviour);
 
-#ifdef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
       if (originalNode->getConfig()->printTree) {
         YGNodePrint(
             originalNode,

@@ -4,7 +4,8 @@
  * This source code is licensed under the MIT license found in the LICENSE
  * file in the root directory of this source tree.
  */
-#ifdef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
+
 #include "YGNodePrint.h"
 #include <stdarg.h>
 #include "YGEnums.h"
