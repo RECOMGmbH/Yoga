@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{44547297-D806-4FF0-9720-0C2376A58871}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Facebook.Yoga</RootNamespace>
+    <AssemblyName>Facebook.Yoga</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Facebook.Yoga\BaselineFunction.cs">
+      <Link>BaselineFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\Logger.cs">
+      <Link>Logger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\MeasureFunction.cs">
+      <Link>MeasureFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\MeasureOutput.cs">
+      <Link>MeasureOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\Native.cs">
+      <Link>Native.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YGConfigHandle.cs">
+      <Link>YGConfigHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YGNodeHandle.cs">
+      <Link>YGNodeHandle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaAlign.cs">
+      <Link>YogaAlign.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaBaselineFunc.cs">
+      <Link>YogaBaselineFunc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaConfig.cs">
+      <Link>YogaConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaConstants.cs">
+      <Link>YogaConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaDimension.cs">
+      <Link>YogaDimension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaDirection.cs">
+      <Link>YogaDirection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaDisplay.cs">
+      <Link>YogaDisplay.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaEdge.cs">
+      <Link>YogaEdge.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaExperimentalFeature.cs">
+      <Link>YogaExperimentalFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaFlexDirection.cs">
+      <Link>YogaFlexDirection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaJustify.cs">
+      <Link>YogaJustify.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaLogger.cs">
+      <Link>YogaLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaLogLevel.cs">
+      <Link>YogaLogLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaMeasureFunc.cs">
+      <Link>YogaMeasureFunc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaMeasureMode.cs">
+      <Link>YogaMeasureMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaNode.cs">
+      <Link>YogaNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaNode.Spacing.cs">
+      <Link>YogaNode.Spacing.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaNodeType.cs">
+      <Link>YogaNodeType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaOverflow.cs">
+      <Link>YogaOverflow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaPositionType.cs">
+      <Link>YogaPositionType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaPrintOptions.cs">
+      <Link>YogaPrintOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaSize.cs">
+      <Link>YogaSize.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaUnit.cs">
+      <Link>YogaUnit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaValue.cs">
+      <Link>YogaValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaValueExtensions.cs">
+      <Link>YogaValueExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaWrap.cs">
+      <Link>YogaWrap.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
