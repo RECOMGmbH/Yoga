@@ -97,6 +97,7 @@ namespace Facebook.Yoga
             Assert.Throws<InvalidOperationException>(() => parent2.Insert(0, child));
         }
 
+/*
         [Test]
         public void TestReset()
         {
@@ -141,7 +142,7 @@ namespace Facebook.Yoga
             Assert.IsNull(child.Parent);
             Assert.AreEqual(instanceCount + 2, YogaNode.GetInstanceCount());
         }
-
+*/
         [Test]
         public void TestMeasureFunc()
         {
@@ -334,120 +335,121 @@ namespace Facebook.Yoga
             GC.WaitForPendingFinalizers();
         }
 
-        [Test]
-        public void TestDestructor()
-        {
-            ForceGC();
-            int instanceCount = YogaNode.GetInstanceCount();
-            TestDestructorForGC(instanceCount);
-            ForceGC();
-            Assert.AreEqual(instanceCount, YogaNode.GetInstanceCount());
-        }
+    /*
+            [Test]
+            public void TestDestructor()
+            {
+                ForceGC();
+                int instanceCount = YogaNode.GetInstanceCount();
+                TestDestructorForGC(instanceCount);
+                ForceGC();
+                Assert.AreEqual(instanceCount, YogaNode.GetInstanceCount());
+            }
 
-        private void TestDestructorForGC(int instanceCount)
-        {
-            YogaNode node = new YogaNode();
-            Assert.IsNotNull(node);
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
-            node = null;
-        }
+            private void TestDestructorForGC(int instanceCount)
+            {
+                YogaNode node = new YogaNode();
+                Assert.IsNotNull(node);
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+                node = null;
+            }
 
-        [Test]
-        public void TestDestructorWithChildren()
-        {
-            ForceGC();
-            int instanceCount = YogaNode.GetInstanceCount();
-            TestDestructorWithChildrenForGC1(instanceCount);
-            ForceGC();
-            Assert.AreEqual(instanceCount, YogaNode.GetInstanceCount());
-        }
+            [Test]
+            public void TestDestructorWithChildren()
+            {
+                ForceGC();
+                int instanceCount = YogaNode.GetInstanceCount();
+                TestDestructorWithChildrenForGC1(instanceCount);
+                ForceGC();
+                Assert.AreEqual(instanceCount, YogaNode.GetInstanceCount());
+            }
 
-        private void TestDestructorWithChildrenForGC1(int instanceCount)
-        {
-            YogaNode node = new YogaNode();
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+            private void TestDestructorWithChildrenForGC1(int instanceCount)
+            {
+                YogaNode node = new YogaNode();
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
 
-            TestDestructorWithChildrenForGC2(node, instanceCount + 1);
-            ForceGC();
-            Assert.AreEqual(instanceCount + 2, YogaNode.GetInstanceCount());
+                TestDestructorWithChildrenForGC2(node, instanceCount + 1);
+                ForceGC();
+                Assert.AreEqual(instanceCount + 2, YogaNode.GetInstanceCount());
 
-            TestDestructorWithChildrenForGC2(node, instanceCount + 2);
-            ForceGC();
-            Assert.AreEqual(instanceCount + 3, YogaNode.GetInstanceCount());
+                TestDestructorWithChildrenForGC2(node, instanceCount + 2);
+                ForceGC();
+                Assert.AreEqual(instanceCount + 3, YogaNode.GetInstanceCount());
 
-            node = null;
-        }
+                node = null;
+            }
 
-        private void TestDestructorWithChildrenForGC2(YogaNode parent, int instanceCount)
-        {
-            YogaNode child = new YogaNode();
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+            private void TestDestructorWithChildrenForGC2(YogaNode parent, int instanceCount)
+            {
+                YogaNode child = new YogaNode();
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
 
-            parent.Insert(0, child);
-            child = null;
-        }
+                parent.Insert(0, child);
+                child = null;
+            }
 
-#if YOGA_ENABLE_GC_TEST
-        [Test]
-        public void TestParentDestructor()
-        {
-            ForceGC();
-            int instanceCount = YogaNode.GetInstanceCount();
-            YogaNode child = new YogaNode();
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+    #if YOGA_ENABLE_GC_TEST
+            [Test]
+            public void TestParentDestructor()
+            {
+                ForceGC();
+                int instanceCount = YogaNode.GetInstanceCount();
+                YogaNode child = new YogaNode();
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
 
-            TestParentDestructorForGC(child, instanceCount + 1);
-            ForceGC();
+                TestParentDestructorForGC(child, instanceCount + 1);
+                ForceGC();
 
-            Assert.IsNull(child.Parent);
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
-        }
+                Assert.IsNull(child.Parent);
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+            }
 
-        private void TestParentDestructorForGC(YogaNode child, int instanceCount)
-        {
-            YogaNode parent = new YogaNode();
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
-            parent.Insert(0, child);
-        }
-#endif
+            private void TestParentDestructorForGC(YogaNode child, int instanceCount)
+            {
+                YogaNode parent = new YogaNode();
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+                parent.Insert(0, child);
+            }
+    #endif
 
-        [Test]
-        public void TestClearWithChildDestructor()
-        {
-            ForceGC();
-            int instanceCount = YogaNode.GetInstanceCount();
-            YogaNode node = new YogaNode();
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
-            TestClearWithChildDestructorForGC(node, instanceCount + 1);
-            ForceGC();
-            Assert.AreEqual(instanceCount + 2, YogaNode.GetInstanceCount());
-            node.Clear();
-            Assert.AreEqual(0, node.Count);
-            ForceGC();
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
-        }
+            [Test]
+            public void TestClearWithChildDestructor()
+            {
+                ForceGC();
+                int instanceCount = YogaNode.GetInstanceCount();
+                YogaNode node = new YogaNode();
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+                TestClearWithChildDestructorForGC(node, instanceCount + 1);
+                ForceGC();
+                Assert.AreEqual(instanceCount + 2, YogaNode.GetInstanceCount());
+                node.Clear();
+                Assert.AreEqual(0, node.Count);
+                ForceGC();
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+            }
 
-        private void TestClearWithChildDestructorForGC(YogaNode parent, int instanceCount)
-        {
-            YogaNode child = new YogaNode();
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
-            parent.Insert(0, child);
-        }
+            private void TestClearWithChildDestructorForGC(YogaNode parent, int instanceCount)
+            {
+                YogaNode child = new YogaNode();
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+                parent.Insert(0, child);
+            }
 
-        [Test]
-        public void TestMeasureFuncWithDestructor()
-        {
-            ForceGC();
-            int instanceCount = YogaNode.GetInstanceCount();
-            YogaNode parent = new YogaNode();
-            Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
-            TestMeasureFuncWithDestructorForGC(parent);
-            ForceGC();
-            Assert.AreEqual(instanceCount + 2, YogaNode.GetInstanceCount());
-            parent.CalculateLayout();
-            Assert.AreEqual(120, (int)parent.LayoutWidth);
-            Assert.AreEqual(130, (int)parent.LayoutHeight);
-        }
+            [Test]
+            public void TestMeasureFuncWithDestructor()
+            {
+                ForceGC();
+                int instanceCount = YogaNode.GetInstanceCount();
+                YogaNode parent = new YogaNode();
+                Assert.AreEqual(instanceCount + 1, YogaNode.GetInstanceCount());
+                TestMeasureFuncWithDestructorForGC(parent);
+                ForceGC();
+                Assert.AreEqual(instanceCount + 2, YogaNode.GetInstanceCount());
+                parent.CalculateLayout();
+                Assert.AreEqual(120, (int)parent.LayoutWidth);
+                Assert.AreEqual(130, (int)parent.LayoutHeight);
+            }
 
         private void TestMeasureFuncWithDestructorForGC(YogaNode parent)
         {
@@ -457,7 +459,8 @@ namespace Facebook.Yoga
                 return MeasureOutput.Make(120, 130);
             });
         }
-#endif
+*/
+    #endif
 
         [Test]
         public void TestLayoutMargin() {

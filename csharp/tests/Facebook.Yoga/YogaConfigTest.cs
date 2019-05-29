@@ -90,7 +90,7 @@ namespace Facebook.Yoga
             Assert.AreEqual(instanceCount + 1, YogaConfig.GetInstanceCount());
             config = null;
         }
-
+/*
         [Test]
         public void TestRetainConfig()
         {
@@ -131,6 +131,7 @@ namespace Facebook.Yoga
 
             return node;
         }
+*/
 #endif
     }
 }
