@@ -3587,20 +3587,20 @@ bool YGNodeCanUseCachedMeasurement(
     return false;
   }
   bool useRoundedComparison =
-      config != nullptr && config->pointScaleFactor != 0;
+      config != nullptr && config->pointScaleFactor != 0 && config->rounding != YGRoundingDisabled;
+  bool forceCeil = config->rounding == YGRoundingForceCeil;
+  bool forceFloor = config->rounding == YGRoundingForceFloor;
   const float effectiveWidth = useRoundedComparison
-      ? YGRoundValueToPixelGrid(width, config->pointScaleFactor, false, false)
+      ? YGRoundValueToPixelGrid(width, config->pointScaleFactor, forceCeil, forceFloor)
       : width;
   const float effectiveHeight = useRoundedComparison
-      ? YGRoundValueToPixelGrid(height, config->pointScaleFactor, false, false)
+      ? YGRoundValueToPixelGrid(height, config->pointScaleFactor, forceCeil, forceFloor)
       : height;
   const float effectiveLastWidth = useRoundedComparison
-      ? YGRoundValueToPixelGrid(
-            lastWidth, config->pointScaleFactor, false, false)
+      ? YGRoundValueToPixelGrid(lastWidth, config->pointScaleFactor, forceCeil, forceFloor)
       : lastWidth;
   const float effectiveLastHeight = useRoundedComparison
-      ? YGRoundValueToPixelGrid(
-            lastHeight, config->pointScaleFactor, false, false)
+      ? YGRoundValueToPixelGrid(lastHeight, config->pointScaleFactor, forceCeil, forceFloor)
       : lastHeight;
 
   const bool hasSameWidthSpec = lastWidthMode == widthMode &&
@@ -3918,14 +3918,26 @@ void YGConfigSetPointScaleFactor(
   }
 }
 
+void YGConfigSetRounding(const YGConfigRef config, const YGRounding rounding)
+{
+  config->rounding = rounding;
+}
+
+YGRounding YGConfigGetRounding(const YGConfigRef config)
+{
+  return config->rounding;
+}
+
 static void YGRoundToPixelGrid(
     const YGNodeRef node,
     const float pointScaleFactor,
     const float absoluteLeft,
     const float absoluteTop) {
-  if (pointScaleFactor == 0.0f) {
+  const YGConfigRef config = node->getConfig();
+
+  if (pointScaleFactor == 0.0f || config->rounding == YGRoundingDisabled) {
     return;
-  }
+  }  
 
   const float nodeLeft = node->getLayout().position[YGEdgeLeft];
   const float nodeTop = node->getLayout().position[YGEdgeTop];
@@ -3942,13 +3954,15 @@ static void YGRoundToPixelGrid(
   // If a node has a custom measure function we never want to round down its
   // size as this could lead to unwanted text truncation.
   const bool textRounding = node->getNodeType() == YGNodeTypeText;
+  const bool forceCeil = config->rounding == YGRoundingForceCeil && !textRounding;
+  const bool forceFloor = config->rounding == YGRoundingForceFloor || textRounding;
 
   node->setLayoutPosition(
-      YGRoundValueToPixelGrid(nodeLeft, pointScaleFactor, false, textRounding),
+      YGRoundValueToPixelGrid(nodeLeft, pointScaleFactor, forceCeil, forceFloor),
       YGEdgeLeft);
 
   node->setLayoutPosition(
-      YGRoundValueToPixelGrid(nodeTop, pointScaleFactor, false, textRounding),
+      YGRoundValueToPixelGrid(nodeTop, pointScaleFactor, forceCeil, forceFloor),
       YGEdgeTop);
 
   // We multiply dimension by scale factor and if the result is close to the
@@ -3965,20 +3979,20 @@ static void YGRoundToPixelGrid(
       YGRoundValueToPixelGrid(
           absoluteNodeRight,
           pointScaleFactor,
-          (textRounding && hasFractionalWidth),
-          (textRounding && !hasFractionalWidth)) -
-          YGRoundValueToPixelGrid(
-              absoluteNodeLeft, pointScaleFactor, false, textRounding),
+          forceCeil || (textRounding && hasFractionalWidth),
+          forceFloor || (textRounding && !hasFractionalWidth))
+      -
+      YGRoundValueToPixelGrid(absoluteNodeLeft, pointScaleFactor, forceCeil, forceFloor),
       YGDimensionWidth);
 
   node->setLayoutDimension(
       YGRoundValueToPixelGrid(
           absoluteNodeBottom,
           pointScaleFactor,
-          (textRounding && hasFractionalHeight),
-          (textRounding && !hasFractionalHeight)) -
-          YGRoundValueToPixelGrid(
-              absoluteNodeTop, pointScaleFactor, false, textRounding),
+          forceCeil || (textRounding && hasFractionalHeight),
+          forceFloor || (textRounding && !hasFractionalHeight))
+      -
+      YGRoundValueToPixelGrid(absoluteNodeTop, pointScaleFactor, forceCeil, forceFloor),
       YGDimensionHeight);
 
   const uint32_t childCount = YGNodeGetChildCount(node);

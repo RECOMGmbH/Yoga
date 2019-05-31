@@ -303,6 +303,10 @@ WIN_EXPORT void YGAssertWithConfig(
 WIN_EXPORT void YGConfigSetPointScaleFactor(
     YGConfigRef config,
     float pixelsInPoint);
+
+WIN_EXPORT void YGConfigSetRounding(YGConfigRef config, YGRounding rounding);
+WIN_EXPORT YGRounding YGConfigGetRounding(YGConfigRef config);
+
 void YGConfigSetShouldDiffLayoutWithoutLegacyStretchBehaviour(
     YGConfigRef config,
     bool shouldDiffLayout);

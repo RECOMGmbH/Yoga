@@ -144,6 +144,13 @@ YG_ENUM_SEQ_DECL(
 
 YG_ENUM_SEQ_DECL(YGWrap, YGWrapNoWrap, YGWrapWrap, YGWrapWrapReverse)
 
+YG_ENUM_SEQ_DECL(
+  YGRounding,
+  YGRoundingDisabled,
+  YGRoundingDefault,
+  YGRoundingForceFloor,
+  YGRoundingForceCeil)
+
 YG_EXTERN_C_END
 
 #undef YG_ENUM_DECL
