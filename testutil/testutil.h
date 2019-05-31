@@ -32,8 +32,15 @@ struct ScopedEventSubscription {
 
 YG_EXTERN_C_BEGIN
 
-WIN_EXPORT void YGTestStartCountingNodes() { facebook::yoga::test::TestUtil::startCountingNodes(); };
-WIN_EXPORT uint32_t YGTestGetNodeCount() { return facebook::yoga::test::TestUtil::nodeCount(); };
+WIN_EXPORT void YGTestStartCountingNodes()
+{
+#ifndef YG_ENABLE_EVENTS
+  throw std::runtime_error("events are not enabled");
+#endif
+  facebook::yoga::test::TestUtil::startCountingNodes();
+};
+
+WIN_EXPORT int YGTestGetNodeCount() { return facebook::yoga::test::TestUtil::nodeCount(); };
 WIN_EXPORT void YGTestStopCountingNodes() { facebook::yoga::test::TestUtil::stopCountingNodes(); };
 
 YG_EXTERN_C_END

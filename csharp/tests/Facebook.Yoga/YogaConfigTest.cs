@@ -21,6 +21,7 @@ namespace Facebook.Yoga
         public void TestSetup()
         {
             TestUtil.YGTestStartCountingNodes();
+            Assert.AreEqual(0, TestUtil.YGTestGetNodeCount());
         }
 
         [TearDown]
@@ -113,8 +114,8 @@ namespace Facebook.Yoga
             TestRetainConfigForGC(nodeInstanceCount, configInstanceCount);
             ForceGC();
 
-            Assert.AreEqual(nodeInstanceCount, TestUtil.YGTestGetNodeCount());
-            Assert.AreEqual(configInstanceCount, YogaConfig.GetInstanceCount());
+            Assert.AreEqual(nodeInstanceCount, TestUtil.YGTestGetNodeCount(), "YGTestGetNodeCount");
+            Assert.AreEqual(configInstanceCount, YogaConfig.GetInstanceCount(), "GetInstanceCount");
         }
 
         private void TestRetainConfigForGC(int nodeInstanceCount, int configInstanceCount)
@@ -124,9 +125,9 @@ namespace Facebook.Yoga
             Assert.AreEqual(configInstanceCount, YogaConfig.GetInstanceCount());
             YogaNode node = TestRetainConfigForGC2(nodeInstanceCount, configInstanceCount);
             ForceGC();
-            Assert.IsNotNull(node);
-            Assert.AreEqual(configInstanceCount + 1, YogaConfig.GetInstanceCount());
-            Assert.AreEqual(nodeInstanceCount + 1, TestUtil.YGTestGetNodeCount());
+            Assert.IsNotNull(node, "node != null");
+            Assert.AreEqual(configInstanceCount + 1, YogaConfig.GetInstanceCount(), "GetInstanceCount");
+            Assert.AreEqual(nodeInstanceCount + 1, TestUtil.YGTestGetNodeCount(), "YGTestGetNodeCount");
             node = null;
         }
 
@@ -134,11 +135,11 @@ namespace Facebook.Yoga
         {
             YogaConfig config = new YogaConfig();
             Assert.IsNotNull(config);
-            Assert.AreEqual(configInstanceCount + 1, YogaConfig.GetInstanceCount());
+            Assert.AreEqual(configInstanceCount + 1, YogaConfig.GetInstanceCount(), "configInstanceCount");
 
             YogaNode node = new YogaNode(config);
             Assert.IsNotNull(node);
-            Assert.AreEqual(nodeInstanceCount + 1, TestUtil.YGTestGetNodeCount());
+            Assert.AreEqual(nodeInstanceCount + 1, TestUtil.YGTestGetNodeCount(), "nodeInstanceCount");
 
             config = null;
 
