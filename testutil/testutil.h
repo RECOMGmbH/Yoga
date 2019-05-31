@@ -9,6 +9,7 @@
 #include <yoga/event/event.h>
 
 #include <functional>
+#include "yoga/YGMacros.h"
 
 namespace facebook {
 namespace yoga {
@@ -24,6 +25,10 @@ struct ScopedEventSubscription {
   ScopedEventSubscription(std::function<Event::Subscriber>&&);
   ~ScopedEventSubscription();
 };
+
+WIN_EXPORT void YGTestStartCountingNodes() { TestUtil::startCountingNodes(); };
+WIN_EXPORT uint32_t YGTestGetNodeCount() { return TestUtil::nodeCount(); };
+WIN_EXPORT void YGTestStopCountingNodes() { TestUtil::stopCountingNodes(); };
 
 } // namespace test
 } // namespace yoga

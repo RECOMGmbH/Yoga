@@ -9,6 +9,7 @@
     <Import_RootNamespace>Facebook.Yoga.Shared.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)TestUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YGAbsolutePositionTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YGAlignContentTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YGAlignItemsTest.cs" />

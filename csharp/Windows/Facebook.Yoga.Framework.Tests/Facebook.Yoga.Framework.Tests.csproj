@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\tests\Facebook.Yoga\TestUtil.cs">
+      <Link>TestUtil.cs</Link>
+    </Compile>
     <Compile Include="..\..\tests\Facebook.Yoga\YGAbsolutePositionTest.cs">
       <Link>YGAbsolutePositionTest.cs</Link>
     </Compile>

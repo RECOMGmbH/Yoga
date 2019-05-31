@@ -16,6 +16,19 @@ namespace Facebook.Yoga
     [TestFixture]
     public class YogaConfigTest
     {
+
+        [SetUp]
+        public void TestSetup()
+        {
+            TestUtil.YGTestStartCountingNodes();
+        }
+
+        [TearDown]
+        public void TestTeardown()
+        {
+            TestUtil.YGTestStopCountingNodes();
+        }
+
         [Test]
         public void TestUseWebDefaults()
         {
@@ -90,30 +103,30 @@ namespace Facebook.Yoga
             Assert.AreEqual(instanceCount + 1, YogaConfig.GetInstanceCount());
             config = null;
         }
-/*
+
         [Test]
         public void TestRetainConfig()
         {
             ForceGC();
-            int nodeInstanceCount = YogaNode.GetInstanceCount();
+            int nodeInstanceCount = TestUtil.YGTestGetNodeCount();
             int configInstanceCount = YogaConfig.GetInstanceCount();
             TestRetainConfigForGC(nodeInstanceCount, configInstanceCount);
             ForceGC();
 
-            Assert.AreEqual(nodeInstanceCount, YogaNode.GetInstanceCount());
+            Assert.AreEqual(nodeInstanceCount, TestUtil.YGTestGetNodeCount());
             Assert.AreEqual(configInstanceCount, YogaConfig.GetInstanceCount());
         }
 
         private void TestRetainConfigForGC(int nodeInstanceCount, int configInstanceCount)
         {
             ForceGC();
-            Assert.AreEqual(nodeInstanceCount, YogaNode.GetInstanceCount());
+            Assert.AreEqual(nodeInstanceCount, TestUtil.YGTestGetNodeCount());
             Assert.AreEqual(configInstanceCount, YogaConfig.GetInstanceCount());
             YogaNode node = TestRetainConfigForGC2(nodeInstanceCount, configInstanceCount);
             ForceGC();
             Assert.IsNotNull(node);
             Assert.AreEqual(configInstanceCount + 1, YogaConfig.GetInstanceCount());
-            Assert.AreEqual(nodeInstanceCount + 1, YogaNode.GetInstanceCount());
+            Assert.AreEqual(nodeInstanceCount + 1, TestUtil.YGTestGetNodeCount());
             node = null;
         }
 
@@ -125,13 +138,12 @@ namespace Facebook.Yoga
 
             YogaNode node = new YogaNode(config);
             Assert.IsNotNull(node);
-            Assert.AreEqual(nodeInstanceCount + 1, YogaNode.GetInstanceCount());
+            Assert.AreEqual(nodeInstanceCount + 1, TestUtil.YGTestGetNodeCount());
 
             config = null;
 
             return node;
         }
-*/
 #endif
     }
 }
