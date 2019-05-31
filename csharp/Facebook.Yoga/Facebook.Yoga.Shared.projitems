@@ -36,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)YogaOverflow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YogaPositionType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YogaPrintOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YogaRounding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YogaSize.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YogaUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YogaValue.cs" />

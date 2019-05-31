@@ -126,6 +126,9 @@
     <Compile Include="..\..\Facebook.Yoga\YogaPrintOptions.cs">
       <Link>YogaPrintOptions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Facebook.Yoga\YogaRounding.cs">
+      <Link>YogaRounding.cs</Link>
+    </Compile>
     <Compile Include="..\..\Facebook.Yoga\YogaSize.cs">
       <Link>YogaSize.cs</Link>
     </Compile>

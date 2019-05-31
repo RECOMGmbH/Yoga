@@ -77,6 +77,12 @@ namespace Facebook.Yoga
         public static extern void YGConfigSetPointScaleFactor(
             YGConfigHandle config,
             float pixelsInPoint);
+    
+        [DllImport(DllName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void YGConfigSetRounding(YGConfigHandle config, YogaRounding rounding);
+
+        [DllImport(DllName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        public static extern YogaRounding YGConfigGetRounding(YGConfigHandle config);
 
         [DllImport(DllName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
         public static extern void YGNodeInsertChild(
