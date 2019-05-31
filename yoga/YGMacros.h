@@ -27,6 +27,6 @@
 #define YG_ENUM_BEGIN(name) NS_ENUM(int, name)
 #define YG_ENUM_END(name)
 #else
-#define YG_ENUM_BEGIN(name) enum name
+#define YG_ENUM_BEGIN(name) enum name : unsigned
 #define YG_ENUM_END(name) name
 #endif

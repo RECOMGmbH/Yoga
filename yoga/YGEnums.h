@@ -14,7 +14,7 @@ namespace yoga {
 namespace enums {
 
 template <typename T>
-constexpr int count(); // can't use `= delete` due to a defect in clang < 3.9
+constexpr unsigned int count(); // can't use `= delete` due to a defect in clang < 3.9
 
 namespace detail {
 template <int... xs>
@@ -40,7 +40,7 @@ constexpr int n() {
   namespace yoga {                   \
   namespace enums {                  \
   template <>                        \
-  constexpr int count<NAME>() {      \
+  constexpr unsigned int count<NAME>() {      \
     return detail::n<__VA_ARGS__>(); \
   }                                  \
   }                                  \
