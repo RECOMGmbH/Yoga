@@ -26,10 +26,14 @@ struct ScopedEventSubscription {
   ~ScopedEventSubscription();
 };
 
-WIN_EXPORT void YGTestStartCountingNodes() { TestUtil::startCountingNodes(); };
-WIN_EXPORT uint32_t YGTestGetNodeCount() { return TestUtil::nodeCount(); };
-WIN_EXPORT void YGTestStopCountingNodes() { TestUtil::stopCountingNodes(); };
-
 } // namespace test
 } // namespace yoga
 } // namespace facebook
+
+YG_EXTERN_C_BEGIN
+
+WIN_EXPORT void YGTestStartCountingNodes() { facebook::yoga::test::TestUtil::startCountingNodes(); };
+WIN_EXPORT uint32_t YGTestGetNodeCount() { return facebook::yoga::test::TestUtil::nodeCount(); };
+WIN_EXPORT void YGTestStopCountingNodes() { facebook::yoga::test::TestUtil::stopCountingNodes(); };
+
+YG_EXTERN_C_END
