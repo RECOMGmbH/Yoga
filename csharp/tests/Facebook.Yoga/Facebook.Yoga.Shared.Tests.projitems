@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)YGAlignItemsTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YGAlignSelfTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YGBorderTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YGExplicitRoundingTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YGFlexDirectionTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YGFlexTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YGFlexWrapTest.cs" />

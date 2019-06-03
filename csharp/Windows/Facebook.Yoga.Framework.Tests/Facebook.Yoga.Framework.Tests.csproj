@@ -102,6 +102,9 @@
     <Compile Include="..\..\tests\Facebook.Yoga\YGRoundingTest.cs">
       <Link>YGRoundingTest.cs</Link>
     </Compile>
+    <Compile Include="..\..\tests\Facebook.Yoga\YGExplicitRoundingTest.cs">
+      <Link>YGExplicitRoundingTest.cs</Link>
+    </Compile>
     <Compile Include="..\..\tests\Facebook.Yoga\YGSizeOverflowTest.cs">
       <Link>YGSizeOverflowTest.cs</Link>
     </Compile>
