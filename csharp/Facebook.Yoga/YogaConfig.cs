@@ -142,6 +142,18 @@ namespace Facebook.Yoga
             }
         }
 
+        public YogaRounding Rounding
+        {
+            get
+            {
+                return Native.YGConfigGetRounding(_ygConfig);
+            }
+            set
+            {
+                Native.YGConfigSetRounding(_ygConfig, value);
+            }
+        }
+
         public static int GetInstanceCount()
         {
             return Native.YGConfigGetInstanceCount();
