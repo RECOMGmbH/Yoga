@@ -3918,6 +3918,11 @@ void YGConfigSetPointScaleFactor(
   }
 }
 
+float YGConfigGetPointScaleFactor(const YGConfigRef config)
+{
+  return config->pointScaleFactor;
+}
+
 void YGConfigSetRounding(const YGConfigRef config, const YGRounding rounding)
 {
   config->rounding = rounding;
