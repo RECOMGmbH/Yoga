@@ -3677,7 +3677,8 @@ bool YGLayoutNodeInternal(
 
   const bool needToVisitNode =
       (node->isDirty() && layout->generationCount != gCurrentGenerationCount) ||
-      layout->lastOwnerDirection != ownerDirection;
+      layout->lastOwnerDirection != ownerDirection ||
+	    node->hasMeasureFunc() && config->rounding == YGRoundingNoSpecialTreatment;
 
   if (needToVisitNode) {
     // Invalidate the cached results.
