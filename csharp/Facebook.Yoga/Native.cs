@@ -211,6 +211,9 @@ namespace Facebook.Yoga
         public static extern void YGNodeStyleSetFlex(YGNodeHandle node, float flex);
 
         [DllImport(DllName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float YGNodeStyleGetFlex(YGNodeHandle node);
+
+        [DllImport(DllName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
         public static extern void YGNodeStyleSetFlexGrow(YGNodeHandle node, float flexGrow);
 
         [DllImport(DllName, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]

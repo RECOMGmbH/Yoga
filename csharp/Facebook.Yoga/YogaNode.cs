@@ -23,7 +23,6 @@ namespace Facebook.Yoga
     public partial class YogaNode : IEnumerable<YogaNode>
     {
         private readonly YGNodeHandle _ygNode;
-        private readonly YogaConfig _config;
         private WeakReference _parent;
         private List<YogaNode> _children;
         private MeasureFunction _measureFunction;
@@ -34,8 +33,8 @@ namespace Facebook.Yoga
 
         public YogaNode(YogaConfig config = null)
         {
-            _config = config == null ? YogaConfig.Default : config;
-            _ygNode = Native.YGNodeNewWithConfig(_config.Handle);
+            this.Config = config ?? YogaConfig.Default;
+            _ygNode = Native.YGNodeNewWithConfig(this.Config.Handle);
             if (_ygNode.IsInvalid)
             {
                 throw new InvalidOperationException("Failed to allocate native memory");
@@ -44,10 +43,12 @@ namespace Facebook.Yoga
             _ygNode.SetContext(this);
         }
 
-        public YogaNode(YogaNode srcNode)
-            : this(srcNode._config)
+        public YogaConfig Config { get; }
+
+        public YogaNode(YogaNode srcNode, YogaConfig config = null)
+            : this(config ?? srcNode.Config)
         {
-            CopyStyle(srcNode);
+            this.CopyStyle(srcNode);
         }
 
         public void Reset()
@@ -238,6 +239,10 @@ namespace Facebook.Yoga
             set
             {
                 Native.YGNodeStyleSetFlex(_ygNode, value);
+            }
+            get
+            {
+                return Native.YGNodeStyleGetFlex(_ygNode);
             }
         }
 
@@ -581,7 +586,7 @@ namespace Facebook.Yoga
             {
                 while (_children.Count > 0)
                 {
-                    RemoveAt(_children.Count-1);
+                    RemoveAt(_children.Count - 1);
                 }
             }
         }
@@ -655,10 +660,10 @@ namespace Facebook.Yoga
             YogaPrintOptions.Layout|YogaPrintOptions.Style|YogaPrintOptions.Children)
         {
             StringBuilder sb = new StringBuilder();
-            Logger orig = _config.Logger;
-            _config.Logger = (config, node, level, message) => {sb.Append(message);};
+            Logger orig = this.Config.Logger;
+            this.Config.Logger = (config, node, level, message) => { sb.Append(message); };
             Native.YGNodePrint(_ygNode, options);
-            _config.Logger = orig;
+            this.Config.Logger = orig;
             return sb.ToString();
         }
 

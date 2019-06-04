@@ -138,6 +138,11 @@ namespace Facebook.Yoga
             }
             set
             {
+                if (Math.Abs(value) < float.Epsilon)
+                {
+                    this.Rounding = YogaRounding.Disabled;
+                    return;
+                }
                 Native.YGConfigSetPointScaleFactor(_ygConfig, value);
             }
         }
