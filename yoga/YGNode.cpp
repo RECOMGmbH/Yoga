@@ -184,6 +184,7 @@ void YGNode::setMeasureFunc(decltype(YGNode::measure_) measureFunc) {
     setNodeType(YGNodeTypeText);
   }
 
+  markDirtyAndPropogate();
   measure_ = measureFunc;
 }
 

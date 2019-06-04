@@ -3524,7 +3524,10 @@ float YGRoundValueToPixelGrid(
     const float value,
     const float pointScaleFactor,
     const bool forceCeil,
-    const bool forceFloor) {
+    const bool forceFloor) {  
+	if (YGFloatsEqual(pointScaleFactor, 0)) {
+    return YGUndefined;
+  }
   float scaledValue = value * pointScaleFactor;
   // We want to calculate `fractial` such that `floor(scaledValue) = scaledValue
   // - fractial`.
@@ -3565,8 +3568,7 @@ float YGRoundValueToPixelGrid(
              ? 1.0f
              : 0.0f);
   }
-  return (YGFloatIsUndefined(scaledValue) ||
-          YGFloatIsUndefined(pointScaleFactor))
+  return (YGFloatIsUndefined(scaledValue) || YGFloatIsUndefined(pointScaleFactor))
       ? YGUndefined
       : scaledValue / pointScaleFactor;
 }
@@ -3589,10 +3591,11 @@ bool YGNodeCanUseCachedMeasurement(
       (!YGFloatIsUndefined(lastComputedWidth) && lastComputedWidth < 0)) {
     return false;
   }
-  bool useRoundedComparison =
-      config != nullptr && config->pointScaleFactor != 0 && config->rounding != YGRoundingDisabled;
+
+  bool useRoundedComparison = config != nullptr && config->rounding != YGRoundingDisabled;
   bool forceCeil = config->rounding == YGRoundingForceCeil;
   bool forceFloor = config->rounding == YGRoundingForceFloor;
+
   const float effectiveWidth = useRoundedComparison
       ? YGRoundValueToPixelGrid(width, config->pointScaleFactor, forceCeil, forceFloor)
       : width;
@@ -3911,14 +3914,12 @@ void YGConfigSetPointScaleFactor(
       config,
       pixelsInPoint >= 0.0f,
       "Scale factor should not be less than zero");
+  YGAssertWithConfig(
+    config,
+    pixelsInPoint > 0.0f,
+    "Scale factor should not be zero - disable rounding using YGConfigSetRounding");
 
-  // We store points for Pixel as we will use it for rounding
-  if (pixelsInPoint == 0.0f) {
-    // Zero is used to skip rounding
-    config->pointScaleFactor = 0.0f;
-  } else {
-    config->pointScaleFactor = pixelsInPoint;
-  }
+  config->pointScaleFactor = pixelsInPoint;
 }
 
 float YGConfigGetPointScaleFactor(const YGConfigRef config)
@@ -3939,11 +3940,11 @@ YGRounding YGConfigGetRounding(const YGConfigRef config)
 static void YGRoundToPixelGrid(
     const YGNodeRef node,
     const float pointScaleFactor,
+		const YGRounding rounding,
     const float absoluteLeft,
-    const float absoluteTop) {
-  const YGConfigRef config = node->getConfig();
-
-  if (pointScaleFactor == 0.0f || config->rounding == YGRoundingDisabled) {
+    const float absoluteTop) 
+{
+  if (rounding == YGRoundingDisabled) {
     return;
   }  
 
@@ -3959,11 +3960,11 @@ static void YGRoundToPixelGrid(
   const float absoluteNodeRight = absoluteNodeLeft + nodeWidth;
   const float absoluteNodeBottom = absoluteNodeTop + nodeHeight;
 
-  // If a node has a custom measure function we never want to round down its
-  // size as this could lead to unwanted text truncation.
-  const bool textRounding = node->getNodeType() == YGNodeTypeText;
-  const bool forceCeil = config->rounding == YGRoundingForceCeil && !textRounding;
-  const bool forceFloor = config->rounding == YGRoundingForceFloor || textRounding;
+  // If a node has a custom measure function in default mode we do not want to
+  // round down its size as this could lead to unwanted text truncation.
+  const bool textRounding = rounding == YGRoundingDefault && node->hasMeasureFunc();
+  const bool forceCeil = rounding == YGRoundingForceCeil;
+  const bool forceFloor = rounding == YGRoundingForceFloor || textRounding;
 
   node->setLayoutPosition(
       YGRoundValueToPixelGrid(nodeLeft, pointScaleFactor, forceCeil, forceFloor),
@@ -4008,6 +4009,7 @@ static void YGRoundToPixelGrid(
     YGRoundToPixelGrid(
         YGNodeGetChild(node, i),
         pointScaleFactor,
+        rounding,
         absoluteNodeLeft,
         absoluteNodeTop);
   }
@@ -4079,6 +4081,9 @@ void YGNodeCalculateLayoutWithContext(
     heightMeasureMode = YGFloatIsUndefined(height) ? YGMeasureModeUndefined
                                                    : YGMeasureModeExactly;
   }
+
+  YGConfigRef config = node->getConfig();
+
   if (YGLayoutNodeInternal(
           node,
           width,
@@ -4090,15 +4095,14 @@ void YGNodeCalculateLayoutWithContext(
           ownerHeight,
           true,
           "initial",
-          node->getConfig(),
+          config,
           marker->data,
           layoutContext)) {
-    node->setPosition(
-        node->getLayout().direction, ownerWidth, ownerHeight, ownerWidth);
-    YGRoundToPixelGrid(node, node->getConfig()->pointScaleFactor, 0.0f, 0.0f);
+    node->setPosition(node->getLayout().direction, ownerWidth, ownerHeight, ownerWidth);
+    YGRoundToPixelGrid(node, config->pointScaleFactor, config->rounding, 0.0f, 0.0f);
 
 #if defined(DEBUG) || defined(_DEBUG)
-    if (node->getConfig()->printTree) {
+    if (config->printTree) {
       YGNodePrint(
           node,
           (YGPrintOptions)(
@@ -4154,7 +4158,8 @@ void YGNodeCalculateLayoutWithContext(
       YGRoundToPixelGrid(
           nodeWithoutLegacyFlag,
           nodeWithoutLegacyFlag->getConfig()->pointScaleFactor,
-          0.0f,
+					nodeWithoutLegacyFlag->getConfig()->rounding,
+					0.0f,
           0.0f);
 
       // Set whether the two layouts are different or not.

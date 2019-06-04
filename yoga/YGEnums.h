@@ -148,6 +148,7 @@ YG_ENUM_SEQ_DECL(
   YGRounding,
   YGRoundingDisabled,
   YGRoundingDefault,
+  YGRoundingNoSpecialTreatment,
   YGRoundingForceFloor,
   YGRoundingForceCeil)
 

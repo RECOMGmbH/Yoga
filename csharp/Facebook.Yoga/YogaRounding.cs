@@ -11,6 +11,7 @@ namespace Facebook.Yoga
     {
         Disabled,
         Default,
+        NoSpecialTreatment,
         ForceFloor,
         ForceCeil
     }
