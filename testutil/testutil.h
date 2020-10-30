@@ -9,6 +9,8 @@
 #include <yoga/event/event.h>
 
 #include <functional>
+#include <stdexcept>
+
 #include "yoga/YGMacros.h"
 
 namespace facebook {

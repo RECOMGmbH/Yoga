@@ -146,5 +146,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Yoga\Yoga.vcxproj">
+      <Project>{0446c86b-f47b-4c46-b673-c7ae0cff35d5}</Project>
+      <Name>yoga</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
