@@ -1,61 +1,129 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--
+ *
+ * Facebook.Yoga.targets -
+ *
+ * WARNING: This MSBuild file requires MSBuild 4.0 features.
+ *
+ * Adapted from System.Data.SQLite.Core.targets
+ *
+-->
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Condition=" (Exists('packages.config') Or Exists('packages.$(MSBuildProjectName).config')) And '$(PlatformTarget)' == 'AnyCPU' and '$(OS)' != 'Unix'">
-    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x86\native\*">
-      <Link>x86\%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\*">
-      <Link>x64\%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </Content>
+
+  <!--
+  ******************************************************************************
+  **                    Yoga Interop Library Build Items                      **
+  ******************************************************************************
+  -->
+
+  <ItemGroup>
+    <YogaInteropFiles Condition="'$(MSBuildThisFileDirectory)' != '' And
+                                   HasTrailingSlash('$(MSBuildThisFileDirectory)')"
+                        Include="$(MSBuildThisFileDirectory)**\yoga.*" />
   </ItemGroup>
-  <ItemGroup Condition=" (Exists('packages.config') Or Exists('packages.$(MSBuildProjectName).config')) And '$(PlatformTarget)' == 'x86' and '$(OS)' != 'Unix'">
-    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x86\lib\netstandard\*">
-      <Link>%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x86\native\*">
-      <Link>%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </Content>    
-  </ItemGroup>
-  <ItemGroup Condition=" (Exists('packages.config') Or Exists('packages.$(MSBuildProjectName).config')) And '$(PlatformTarget)' == 'x64' and '$(OS)' != 'Unix'">
-    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\lib\netstandard\*">
-      <Link>%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\*">
-      <Link>%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </Content>    
-  </ItemGroup>
-  <ItemGroup Condition=" (Exists('packages.config') Or Exists('packages.$(MSBuildProjectName).config')) And '$(PlatformTarget)' == 'ARM' and '$(OS)' != 'Unix' ">
-    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win8-arm\lib\netstandard\*">
-      <Link>%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win8-arm\native\*">
-      <Link>%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>False</Visible>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition=" '$(OS)' == 'Unix' ">
-    <None Include="$(MSBuildThisFileDirectory)..\..\runtimes\osx\native\libyoga.dylib">
-      <Link>libyoga.dylib</Link>
+
+  <!--
+  ******************************************************************************
+  **                   Yoga Interop Library Content Items                     **
+  ******************************************************************************
+  -->
+
+  <ItemGroup Condition="'$(ContentYogaInteropFiles)' != '' And
+                        '$(ContentYogaInteropFiles)' != 'false' And
+                        '@(YogaInteropFiles)' != ''">
+    <Content Include="@(YogaInteropFiles)">
+      <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)Facebook.Yoga.dll.config">
-      <Link>Facebook.Yoga.dll.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
+
+  <!--
+  ******************************************************************************
+  **                   Yoga Interop Library Build Targets                     **
+  ******************************************************************************
+  -->
+
+  <Target Name="CopyYogaInteropFiles"
+          Condition="'$(CopyYogaInteropFiles)' != 'false' And
+                     '$(OutDir)' != '' And
+                     HasTrailingSlash('$(OutDir)') And
+                     Exists('$(OutDir)')"
+          Inputs="@(YogaInteropFiles)"
+          Outputs="@(YogaInteropFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')">
+    <!--
+        NOTE: Copy "yoga.dll" and all related files, for every
+              architecture that we support, to the build output directory.
+    -->
+    <Copy SourceFiles="@(YogaInteropFiles)"
+          DestinationFiles="@(YogaInteropFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="CleanYogaInteropFiles"
+          Condition="'$(CleanYogaInteropFiles)' != 'false' And
+                     '$(OutDir)' != '' And
+                     HasTrailingSlash('$(OutDir)') And
+                     Exists('$(OutDir)')">
+    <!--
+        NOTE: Delete "yoga.dll" and all related files, for every
+              architecture that we support, from the build output directory.
+    -->
+    <Delete Files="@(YogaInteropFiles -> '$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="CollectYogaInteropFiles"
+          Condition="'$(CollectYogaInteropFiles)' != 'false'">
+    <ItemGroup>
+      <FilesForPackagingFromProject Include="@(YogaInteropFiles)">
+        <DestinationRelativePath>bin\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+
+  <!--
+  ******************************************************************************
+  **                 Yoga Interop Library Build Properties                    **
+  ******************************************************************************
+  -->
+
+  <PropertyGroup>
+    <PostBuildEventDependsOn>
+      $(PostBuildEventDependsOn);
+      CopyYogaInteropFiles;
+    </PostBuildEventDependsOn>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      CopyYogaInteropFiles;
+    </BuildDependsOn>
+    <CleanDependsOn>
+      $(CleanDependsOn);
+      CleanYogaInteropFiles;
+    </CleanDependsOn>
+  </PropertyGroup>
+
+  <!--
+  ******************************************************************************
+  **     Yoga Interop Library Publish Properties for Visual Studio 201x       **
+  ******************************************************************************
+  -->
+
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' Or
+                            '$(VisualStudioVersion)' == '10.0' Or
+                            '$(VisualStudioVersion)' == '11.0' Or
+                            '$(VisualStudioVersion)' == '12.0' Or
+                            '$(VisualStudioVersion)' == '14.0' Or
+                            '$(VisualStudioVersion)' == '15.0'">
+    <PipelineCollectFilesPhaseDependsOn>
+      CollectYogaInteropFiles;
+      $(PipelineCollectFilesPhaseDependsOn);
+    </PipelineCollectFilesPhaseDependsOn>
+  </PropertyGroup>
+  
 </Project>
