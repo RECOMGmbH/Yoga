@@ -19,7 +19,7 @@ namespace Facebook.Yoga
 {
     public class YogaConfig
     {
-        internal static readonly YogaConfig Default = new YogaConfig(YGConfigHandle.Default);
+        public static readonly YogaConfig Default = new YogaConfig(YGConfigHandle.Default);
         private static YogaLogger _managedLogger;
 
         private YGConfigHandle _ygConfig;
