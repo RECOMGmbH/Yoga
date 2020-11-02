@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#include <yoga/testutil/testutil.h>
+#include <testutil/src/main/cpp/include/yoga/testutil/testutil.h>
 
 #include <yoga/YGNode.h>
 #include <yoga/event/event.h>

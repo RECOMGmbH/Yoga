@@ -110,6 +110,11 @@ YOGA_EXPORT bool YGFloatIsUndefined(const float value) {
   return facebook::yoga::isUndefined(value);
 }
 
+YOGA_EXPORT bool YGDoubleIsUndefined(const double value)
+{
+  return facebook::yoga::isUndefined(value);
+}
+
 detail::CompactValue YGComputedEdgeValue(
     const YGStyle::Edges& edges,
     YGEdge edge,
@@ -3665,7 +3670,7 @@ YOGA_EXPORT float YGRoundValueToPixelGrid(
     const double pointScaleFactor,
     const bool forceCeil,
     const bool forceFloor) {  
-  if (YGFloatsEqual(pointScaleFactor, 0)) {
+  if (YGDoubleEqual(pointScaleFactor, 0)) {
     return YGUndefined;
   }
   double scaledValue = value * pointScaleFactor;
@@ -3703,14 +3708,15 @@ YOGA_EXPORT float YGRoundValueToPixelGrid(
   } else {
     // Finally we just round the value
     scaledValue = scaledValue - fractial +
-        (!YGFloatIsUndefined(fractial) &&
+        (!YGDoubleIsUndefined(fractial) &&
                  (fractial > 0.5f || YGDoubleEqual(fractial, 0.5f))
              ? 1.0f
              : 0.0f);
   }
-  return (YGFloatIsUndefined(scaledValue) || YGFloatIsUndefined(pointScaleFactor))
+  return (float)(
+    (YGDoubleIsUndefined(scaledValue) || YGDoubleIsUndefined(pointScaleFactor))
       ? YGUndefined
-      : scaledValue / pointScaleFactor;
+      : scaledValue / pointScaleFactor);
 }
 
 YOGA_EXPORT bool YGNodeCanUseCachedMeasurement(

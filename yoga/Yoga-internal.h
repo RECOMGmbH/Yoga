@@ -29,7 +29,12 @@ YG_EXTERN_C_END
 namespace facebook {
 namespace yoga {
 
-inline bool isUndefined(float value) {
+inline bool isUndefined(double value) {
+  return std::isnan(value);
+}
+
+inline bool isUndefined(float value)
+{
   return std::isnan(value);
 }
 
