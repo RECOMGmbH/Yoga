@@ -33,6 +33,8 @@ struct ScopedEventSubscription {
 } // namespace yoga
 } // namespace facebook
 
+#if defined(_DEBUG) || defined(DEBUG)
+
 YG_EXTERN_C_BEGIN
 
 WIN_EXPORT void YGTestStartCountingNodes()
@@ -47,3 +49,5 @@ WIN_EXPORT int YGTestGetNodeCount() { return facebook::yoga::test::TestUtil::nod
 WIN_EXPORT void YGTestStopCountingNodes() { facebook::yoga::test::TestUtil::stopCountingNodes(); };
 
 YG_EXTERN_C_END
+
+#endif
